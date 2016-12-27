@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                } 
+                }
         }
 
 
@@ -186,21 +187,26 @@ public class MainActivity extends AppCompatActivity {
                 blueSetup();
             }
         });
+
+        Button twd = (Button)findViewById(R.id.twd);
+
+        twd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                move(100, 90);
+            }
+        });
     }
 
 
     private void rotate (int degree, int power)
     {
-        int rot = 0;
-
-
-        if (degree > 180)
-            degree = 360-degree;
-
-
-        rot = ((90 - degree)*power)/90;
-
         if (blueOut != null) {
+
+            double rad = 57.2957795;
+
+            int rot = (int)(Math.cos(degree/rad)*power);
+
             blueOut.write("r " + Integer.toString(rot) + ";");
             blueOut.flush();
         }
